@@ -32,4 +32,15 @@ public class PricingController {
         }
 
     }
+    @GetMapping("/refresh")
+    public Price refreshPrice(@RequestParam Long vehicleId) {
+        try {
+            PricingService.refreshPrice(vehicleId);
+            return PricingService.getPrice(vehicleId);
+        } catch (PriceException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Price Not Found", ex);
+        }
+
+    }
 }

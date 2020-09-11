@@ -13,4 +13,15 @@ public class MapsController {
     public Address get(@RequestParam Double lat, @RequestParam Double lon) {
         return MockAddressRepository.getRandom();
     }
+
+    @GetMapping("/byId")
+    public Address getById(@RequestParam long id) {
+        System.out.println("Id : " + id);
+        return MockAddressRepository.getAddress(id);
+    }
+
+    @GetMapping("/refresh")
+    public Address refreshAddress(@RequestParam long id) {
+         return  MockAddressRepository.refreshAddress(id);
+    }
 }

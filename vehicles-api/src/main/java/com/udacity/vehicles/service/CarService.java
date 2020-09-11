@@ -79,7 +79,7 @@ public class CarService {
          * Note: The Location class file also uses @transient for the address,
          * meaning the Maps service needs to be called each time for the address.
          */
-        Location carAddress = mapsClient.getAddress(car.getLocation());
+        Location carAddress = mapsClient.getAddress(car.getLocation(), id);
         car.setLocation(carAddress);
 
 
@@ -118,6 +118,7 @@ public class CarService {
         if (optionalCar.isPresent()) {
             Car car = optionalCar.get();
             repository.delete(car);
+            priceClient.refreshPrice(id);
         } else {
             throw  new CarNotFoundException();
         }

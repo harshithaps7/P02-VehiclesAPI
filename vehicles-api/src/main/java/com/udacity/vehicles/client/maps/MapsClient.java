@@ -28,17 +28,17 @@ public class MapsClient {
     /**
      * Gets an address from the Maps client, given latitude and longitude.
      * @param location An object containing "lat" and "lon" of location
+     * @param id
      * @return An updated location including street, city, state and zip,
      *   or an exception message noting the Maps service is down
      */
-    public Location getAddress(Location location) {
+    public Location getAddress(Location location, Long id) {
         try {
             Address address = client
                     .get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/maps/")
-                            .queryParam("lat", location.getLat())
-                            .queryParam("lon", location.getLon())
+                            .path("/maps/byId")
+                            .queryParam("id", id)
                             .build()
                     )
                     .retrieve().bodyToMono(Address.class).block();
@@ -49,6 +49,20 @@ public class MapsClient {
         } catch (Exception e) {
             log.warn("Map service is down");
             return location;
+        }
+    }
+    public void refreshAddress(Long id) {
+        try {
+            Address address = client
+                    .get()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/maps/")
+                            .queryParam("id", id)
+                            .build()
+                    )
+                    .retrieve().bodyToMono(Address.class).block();
+        } catch (Exception e) {
+            log.warn("Map service is down");
         }
     }
 }
