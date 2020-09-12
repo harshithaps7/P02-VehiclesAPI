@@ -16,7 +16,6 @@ public class MapsController {
 
     @GetMapping("/byId")
     public Address getById(@RequestParam long id) {
-        System.out.println("Id : " + id);
         return MockAddressRepository.getAddress(id);
     }
 

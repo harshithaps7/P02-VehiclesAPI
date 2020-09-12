@@ -1,9 +1,6 @@
 package com.udacity.boogle.maps;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -14,10 +11,9 @@ class MockAddressRepository {
     /**
      * Holds {ID: Price} pairings (current implementation allows for 20 vehicles)
      */
-    private static Map<Long, Address> ADDRESSES_SAVED;
+    public static Map<Long, Address> ADDRESSES_SAVED = new HashMap<>();
 
-    public MockAddressRepository() {
-        System.out.println("Tubuhgksahgka");
+    static void setUpAddress() {
         for (long i=1; i<21; i++) {
             ADDRESSES_SAVED.put(i, getRandom());
         }
@@ -55,6 +51,10 @@ class MockAddressRepository {
 
     static Address getAddress(long vehicleId) {
 
+        if (ADDRESSES_SAVED.isEmpty()) {
+            setUpAddress();
+        }
+
         if (!ADDRESSES_SAVED.containsKey(vehicleId)) {
             ADDRESSES_SAVED.put(vehicleId, getRandom());
         }
@@ -63,6 +63,10 @@ class MockAddressRepository {
     }
 
     static Address refreshAddress(long id) {
+
+        if (ADDRESSES_SAVED.isEmpty()) {
+            setUpAddress();
+        }
         ADDRESSES_SAVED.put(id, getRandom());
         return ADDRESSES_SAVED.get(id);
     }
